@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { AvailableUserRoles, OrderStatusEnum } from "../utils/constants";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const orderSchema = new mongoose.Schema(
   {
@@ -33,25 +34,8 @@ const orderSchema = new mongoose.Schema(
       default: [],
     },
     address: {
-      addressLine1: {
-        required: true,
-        type: String,
-      },
-      addressLine2: {
-        type: String,
-      },
-      city: {
-        type: String,
-        required: true,
-      },
-      country: {
-        type: String,
-        required: true,
-      },
-      pinCode: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
     },
     status: {
       type: String,
@@ -61,5 +45,7 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+orderSchema.plugin(mongooseAggregatePaginate);
 
 export const Order = mongoose.model("Order", orderSchema);
