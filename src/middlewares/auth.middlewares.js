@@ -3,7 +3,7 @@ import { ApiError } from "../utils/api-error.js";
 import { asyncHandler } from "../utils/async-handler.js";
 import { User } from "../models/user.model.js";
 
-const verifyJWT = asyncHandler(async (req, res, next) => {
+export const verifyJWT = asyncHandler(async (req, res, next) => {
   const token =
     req.cookie?.accessToken ||
     req.header("Authorization")?.replace("Bearer ", "");
@@ -29,7 +29,7 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
   }
 });
 
-const verifyPermission = (roles = []) => {
+export const verifyPermission = (roles = []) => {
   asyncHandler(async (req, res, next) => {
     if (!req.user?._id) {
       throw new ApiError(401, "unauthorized request");

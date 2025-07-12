@@ -1,14 +1,20 @@
 import express from "express";
+import {
+  getUserCart,
+  addItemOrUpdateItemQuantity,
+  removeItemFromCart,
+  clearCart,
+} from "../controllers/cart.controllers.js";
 
 const router = express.Router();
 
 router.route("/").get(getUserCart);
 
-router.route("/clear").delete(deleteCart);
+router.route("/:id").delete(clearCart);
 
 router
-  .route("/books/:id")
-  .post(addOrUpdateBooksQuantity)
-  .delete(removeBooksFromCart);
+  .route("/:id")
+  .post(addItemOrUpdateItemQuantity)
+  .delete(removeItemFromCart);
 
 export default router;

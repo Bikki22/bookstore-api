@@ -1,10 +1,14 @@
 import express from "express";
+import {
+  updateOrderStatus,
+  getOrderById,
+  getOrderListAdmin,
+} from "../controllers/order.controllers.js";
 
 const router = express.Router();
 
-router.route("/").post(placeOrder);
-router.route("/list/admin").get(getAllUserOrders);
-router.route("/:id").get(orderDetails);
-router.route("/status/:id").patch(updateOrderStatus);
+router.route("/admin").get(getOrderListAdmin);
+router.route("/:id").get(getOrderById);
+router.route("/:id").patch(updateOrderStatus);
 
 export default router;

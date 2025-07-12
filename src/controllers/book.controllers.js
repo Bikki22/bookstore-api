@@ -8,13 +8,16 @@ import mongoose from "mongoose";
 const getAllBooks = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
-  const bookAggrigate = Books.aggregate([{ $match: {} }]);
+  const bookAggregate = Books.aggregate([{ $match: {} }]);
 
-  const books = Books.aggregatePaginate(bookAggrigate);
+  const books = await Books.aggregatePaginate(bookAggregate, {
+    page: parseInt(page),
+    limit: parseInt(limit),
+  });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, books, "books fetched successfully"));
+    .json(new ApiResponse(200, books, "Books fetched successfully"));
 });
 
 const createBooks = asyncHandler(async (req, res) => {
@@ -94,10 +97,10 @@ const getBookByCategory = asyncHandler(async (req, res) => {
   const category = await Category.findById(categoryId).select("name _id");
 
   if (!category) {
-    throw new ApiError(404, "Category doesnot exists");
+    throw new ApiError(404, "Category does not exist");
   }
 
-  const bookAggrigate = await Books.aggregate([
+  const aggregation = Books.aggregate([
     {
       $match: {
         category: new mongoose.Types.ObjectId(categoryId),
@@ -105,7 +108,10 @@ const getBookByCategory = asyncHandler(async (req, res) => {
     },
   ]);
 
-  const books = await Books.aggregatePaginate(bookAggrigate);
+  const books = await Books.aggregatePaginate(aggregation, {
+    page: parseInt(page),
+    limit: parseInt(limit),
+  });
 
   return res
     .status(200)
@@ -113,7 +119,7 @@ const getBookByCategory = asyncHandler(async (req, res) => {
       new ApiResponse(
         200,
         { ...books, category },
-        "category product fetched succssfully",
+        "Category books fetched successfully",
       ),
     );
 });

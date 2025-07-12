@@ -18,31 +18,40 @@ const userRegistraationValidation = () => {
       .isLowercase()
       .isLength({ min: 4 })
       .withMessage("username must be at least 4 character long"),
-      body("password").trim().notEmpty().withMessage("Password is required"),
-      body("role").trim().isIn(AvailableUserRoles).withMessage("Invalid user role")
+    body("password").trim().notEmpty().withMessage("Password is required"),
+    body("role")
+      .trim()
+      .isIn(AvailableUserRoles)
+      .withMessage("Invalid user role"),
   ];
 };
 
-
-const userLoginValidation = ()=>{
-  reutrn [
-    body("email").trim().notEmpty().isEmail().withMessage("Invalid email").isLowercase(),
+const userLoginValidation = () => {
+  reutrn[
+    (body("email")
+      .trim()
+      .notEmpty()
+      .isEmail()
+      .withMessage("Invalid email")
+      .isLowercase(),
     body("username").trim().optional(),
-    body("password").notEmpty().withMessage("password is requried")
-  ]
-}
+    body("password").notEmpty().withMessage("password is requried"))
+  ];
+};
 
-const userForgotPasswordTokenValidation = ()=>{
-   return [
-    body("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Email is invalid")
-   ]
-}
-
-const userResetForgottenPasswordValidator = ()=>{
+const userForgotPasswordTokenValidation = () => {
   return [
-    body("newPassword").notEmpty().withMessage("password is requried")
-  ]
-}
+    body("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is invalid"),
+  ];
+};
+
+const userResetForgottenPasswordValidator = () => {
+  return [body("newPassword").notEmpty().withMessage("password is requried")];
+};
 
 const userAssignRoleValidator = () => {
   return [
@@ -53,11 +62,10 @@ const userAssignRoleValidator = () => {
   ];
 };
 
-
 export {
   userRegistraationValidation,
   userLoginValidation,
   userForgotPasswordTokenValidation,
-  userResetForgottenPasswordValidator
-  ,userAssignRoleValidator
-}
+  userResetForgottenPasswordValidator,
+  userAssignRoleValidator,
+};

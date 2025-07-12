@@ -1,9 +1,9 @@
-import express, { Router } from "express";
+import { Router } from "express";
 
 const router = Router();
 
-router.route("/books/:id/reviews").post(createReviews);
-router.route("/books/:id/reviews").get(getReviews);
-router.route("/books/:id").delete(deleteReviews); //owner only
+router.route("/:id/reviews").post(createReviews);
+router.route("/:id/reviews").get(getReviews);
+router.route("/:id").delete(deleteReviews);
 
 export default router;
